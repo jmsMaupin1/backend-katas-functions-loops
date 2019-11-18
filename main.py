@@ -12,18 +12,25 @@ def add(x, y):
 
 def multiply(x, y):
     """Multiply x with y. Handles negative values of x or y."""
-    return x * y
+    if not (x or y):
+        return 0
+    if (x < 0) ^ (y < 0):
+        return -multiply(-x, y) if x < 0 else -multiply(x, -y)
+
+    return reduce(lambda x, y: add(x, y), [abs(x) for _ in range(abs(y))])
 
 
 def power(x, n):
     """Raise x to power n, where n >= 0"""
-    return x ** n
+    if n == 0:
+        return 1
+    return reduce(lambda x, y: multiply(x, y), [x for _ in range(n)])
 
 
 def factorial(x):
     """Compute factorial of x, where x > 0"""
     if x == 0: return 1
-    return reduce(lambda x, y: x * y, [i for i in range(x, 0, -1)])
+    return reduce(lambda x, y: multiply(x, y), [i for i in range(x, 0, -1)])
 
 def fibonacci(n):
     """Compute the nth term of fibonacci sequence"""
@@ -31,9 +38,8 @@ def fibonacci(n):
     if n < len(fib):
         return fib[n]
 
-    return fibonacci(n-1) + fibonacci(n - 2)
+    return add(fibonacci(n-1), fibonacci(n - 2))
 
 
 if __name__ == '__main__':
-    print(factorial(3))
-    pass
+    print(multiply(-2, 3))
