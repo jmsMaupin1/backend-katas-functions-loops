@@ -3,8 +3,7 @@
 
 __author__ = "James Maupin"
 
-import math
-
+from functools import reduce
 
 def add(x, y):
     """Add two integers. Handles negative values."""
@@ -23,8 +22,8 @@ def power(x, n):
 
 def factorial(x):
     """Compute factorial of x, where x > 0"""
-    return math.factorial(x)
-
+    if x == 0: return 1
+    return reduce(lambda x, y: x * y, [i for i in range(x, 0, -1)])
 
 def fibonacci(n):
     """Compute the nth term of fibonacci sequence"""
@@ -36,4 +35,5 @@ def fibonacci(n):
 
 
 if __name__ == '__main__':
+    print(factorial(3))
     pass
